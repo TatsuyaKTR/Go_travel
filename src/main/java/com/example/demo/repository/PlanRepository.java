@@ -16,6 +16,10 @@ public interface PlanRepository extends JpaRepository<Plan, Integer> {
 	 */
 	List<Plan> findByDateBetween(LocalDate startDate, LocalDate endDate);
 
+	List<Plan> findByAccommodationId(Integer accommodationId);
+
+	List<Plan> findByAccommodationIdAndDateBetween(Integer accommodationId, LocalDate startDate, LocalDate endDate);
+
 	/**
 	 * プラン用全検索
 	 * 今のところ使うのが未定です

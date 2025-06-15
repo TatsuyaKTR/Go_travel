@@ -66,6 +66,12 @@ public class Accommodation {
 	@Transient
 	private Integer minPrice;
 
+	@Transient
+	private LocalDate oldDate;
+
+	@Transient
+	private LocalDate newDate;
+
 	//デフォルトコンストラクタ
 	public Accommodation() {
 
@@ -189,6 +195,22 @@ public class Accommodation {
 
 	public void setMinPrice(Integer minPrice) {
 		this.minPrice = minPrice;
+	}
+
+	public LocalDate getOldDate() {
+		return oldDate;
+	}
+
+	public void setOldDate(LocalDate oldDate) {
+		this.oldDate = oldDate;
+	}
+
+	public LocalDate getNewDate() {
+		return newDate;
+	}
+
+	public void setNewDate(LocalDate newDate) {
+		this.newDate = newDate;
 	}
 
 }

@@ -17,15 +17,15 @@
 			<th>最安値</th>
 			<th>詳細</th>
 		</tr>
-		<tr th:each="accommodations : ${accommodations}">
-			<td th:text="${accommodations.id}"></td>
-			<td th:text="${accommodations.name}"></td>
-			<td th:text="${accommodations.minDate}"></td>
-			<td th:text="${accommodations.address}"></td>
-			<td th:text="${accommodations.language.name}"></td>
-			<td th:text="${accommodations.bathType.name}"></td>
-			<td th:text="${accommodations.minPrice}"></td>
-			<td th:text="${accommodations.content}"></td>			
+		<tr th:each="accommodation : ${accommodations}">
+			<td th:text="${accommodation.id}"></td>
+			<td th:text="${accommodation.name}"></td>
+			<td th:text="${accommodation.oldDate + ' ~ ' + accommodation.newDate}"></td>
+			<td th:text="${accommodation.address}"></td>
+			<td th:text="${accommodation.language.name}"></td>
+			<td th:text="${accommodation.bathType.name}"></td>
+			<td th:text="${accommodation.minPrice}"></td>
+			<td th:text="${accommodation.content}"></td>			
 		</tr>
 	</table>
 </body>

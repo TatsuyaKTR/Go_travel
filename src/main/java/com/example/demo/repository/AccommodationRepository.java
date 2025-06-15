@@ -13,22 +13,32 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, In
 	 * 日付を組み合わせるときはJPAで使用してください
 	 * @param categoryId
 	 * @param bathId
-	 * @param languageId
+	 * @param address
+	 * @param languageIdList
 	 * @return
 	 */
+	List<Accommodation> findByCategoryIdAndBathIdAndAddressContainingAndLanguageIdIn(
+			Integer categoryId, Integer bathId, String address, List<Integer> languageIdList);
 
-	List<Accommodation> findByCategoryIdAndBathIdAndLanguageId(Integer categoryId, Integer bathId, Integer languageId);
+	List<Accommodation> findByCategoryIdAndBathIdAndLanguageIdIn(
+			Integer categoryId, Integer bathId, List<Integer> languageIdList);
 
-	List<Accommodation> findByCategoryIdAndBathId(Integer categoryId, Integer bathId);
+	List<Accommodation> findByCategoryIdAndAddressContainingAndLanguageIdIn(
+			Integer categoryId, String address, List<Integer> languageIdList);
 
-	List<Accommodation> findByCategoryIdAndLanguageId(Integer categoryId, Integer languageId);
+	List<Accommodation> findByBathIdAndAddressContainingAndLanguageIdIn(
+			Integer bathId, String address, List<Integer> languageIdList);
 
-	List<Accommodation> findByBathIdAndLanguageId(Integer bathId, Integer languageId);
+	List<Accommodation> findByCategoryIdAndLanguageIdIn(Integer categoryId, List<Integer> languageIdList);
+
+	List<Accommodation> findByBathIdAndLanguageIdIn(Integer bathId, List<Integer> languageIdList);
+
+	List<Accommodation> findByAddressContainingAndLanguageIdIn(String address, List<Integer> languageIdList);
 
 	List<Accommodation> findByCategoryId(Integer categoryId);
 
 	List<Accommodation> findByBathId(Integer bathId);
 
-	List<Accommodation> findByLanguageId(Integer languageId);
+	List<Accommodation> findByLanguageIdIn(List<Integer> languageIdList);
 
 }
