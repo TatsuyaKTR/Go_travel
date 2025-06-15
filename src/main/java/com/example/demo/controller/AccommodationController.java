@@ -3,8 +3,10 @@ package com.example.demo.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import com.example.demo.repository.AccommodationRepository;
 import com.example.demo.repository.BathTypeRepository;
 import com.example.demo.repository.LanguageRepository;
 import com.example.demo.repository.PlanRepository;
+import com.example.demo.repository.RoomTypeRepository;
 
 @Controller
 public class AccommodationController {
@@ -35,6 +38,8 @@ public class AccommodationController {
 
 	@Autowired
 	BathTypeRepository bathTypeRepository;
+	@Autowired
+	RoomTypeRepository roomTypeRepository;
 
 	@GetMapping("/")
 	public String index() {
@@ -219,26 +224,22 @@ public class AccommodationController {
 		Accommodation accommodation = accommodationRepository.findById(accommodationId).get();
 
 		/**
-		 * プランの中で最安値(price)とその日付の最も古い日(oldDate)と最も新しい日(newDate)を取得
-		 * priceの初期値をInteger.MAX_VALUEとし，もっと安い値段があればなれば更新
-		 * oldDateの初期値を2099年12月31日とし，もっと古い日付があれば更新
-		 * newDateの初期値を現在の日付とし，もっと新しい日付があれば更新
+		 * HashMapで(部屋名, 日付リスト)をセットする
+		 * 新たな部屋名が出たときは部屋名のキーを追加
+		 * 現在の部屋キーの日付リストに日付を追加する
 		 */
-		List<Plan> plans = planRepository.findByAccommodationId(accommodationId);
-		for (Plan plan : plans) {
-			LocalDate oldDate = LocalDate.of(2099, 12, 31);
-			LocalDate newDate = LocalDate.now();
-			if (oldDate.isAfter(plan.getDate())) {
-				oldDate = plan.getDate();
+
+		Map<String, List<LocalDate>> roomDateListMap = new HashMap<>();
+		for (Plan plan : accommodation.getPlans()) {
+			//ルーム名
+			String roomName = plan.getRoomType().getName();
+			if (!roomDateListMap.containsKey(roomName)) {
+				roomDateListMap.put(roomName, new ArrayList<LocalDate>());
 			}
-			if (newDate.isBefore(plan.getDate())) {
-				newDate = plan.getDate();
-			}
-			plan.setOldDate(oldDate);
-			plan.setNewDate(newDate);
+			roomDateListMap.get(roomName).add(plan.getDate());
 		}
 
-		accommodation.setPlans(plans);
+		model.addAttribute("roomDateListMap", roomDateListMap);
 		model.addAttribute("accommodation", accommodation);
 		return "accommodationInf";
 	}

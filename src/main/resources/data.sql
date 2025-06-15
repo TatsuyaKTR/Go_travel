@@ -51,7 +51,7 @@ INSERT INTO plans(room_id,price, accommodation_id,date) VALUES(3,10500,3,'2025-1
 INSERT INTO plans(room_id,price, accommodation_id,date) VALUES(1,20000,4,'2025-10-13');
 INSERT INTO plans(room_id,price, accommodation_id,date) VALUES(2,40000,4,'2025-12-07');
 INSERT INTO plans(room_id,price, accommodation_id,date) VALUES(3,30000,4,'2025-09-26');
-INSERT INTO plans(room_id,price, accommodation_id,date) VALUES(3,10000,2,'2025-09-19');
+INSERT INTO plans(room_id,price, accommodation_id,date) VALUES(3,10000,2,'2025-09-20');
 INSERT INTO plans(room_id,price, accommodation_id,date) VALUES(2,36000,5,'2025-10-24');
 INSERT INTO plans(room_id,price, accommodation_id,date) VALUES(3,27000,5,'2025-09-10');
 INSERT INTO plans(room_id,price, accommodation_id,date) VALUES(1,50000,6,'2026-01-20');

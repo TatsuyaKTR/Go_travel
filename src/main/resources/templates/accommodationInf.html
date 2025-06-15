@@ -16,7 +16,15 @@
 		<tr>
 			<th>日付</th>
 			<td>
-				<p th:each="plan:${accommodation.plans}" th:text="${plan.roomType.name + ':' + plan.oldDate + '~' + plan.newDate}"></p>
+				<span th:each="entry : ${roomDateListMap}">
+					<span th:text="${entry.key+':'}"></span>
+					<span th:each="date, stat: ${entry.value}">
+						<span th:text="${date}"></span>
+						<span th:unless="${stat.last}" th:text="','"></span>
+					</span>
+					<br>
+				</span>
+
 			</td>
 		</tr>
 		<tr>
@@ -34,7 +42,8 @@
 		<tr>
 			<th>価格帯</th>
 			<td>
-				<span th:each="plan:${accommodation.plans}" th:text="${plan.roomType.name + ':' + plan.price + '円' +'　'}"></span>
+				<span th:each="plan:${accommodation.plans}"
+					th:text="${plan.roomType.name + ':' + plan.price + '円' +'　'}"></span>
 			</td>
 		</tr>
 		<tr>

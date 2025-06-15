@@ -18,6 +18,8 @@ public interface PlanRepository extends JpaRepository<Plan, Integer> {
 
 	List<Plan> findByAccommodationId(Integer accommodationId);
 
+	List<Plan> findByAccommodationIdAndRoomId(Integer accommodationId, Integer roomId);
+
 	List<Plan> findByAccommodationIdAndDateBetween(Integer accommodationId, LocalDate startDate, LocalDate endDate);
 
 	/**
