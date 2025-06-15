@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "plans")
@@ -30,7 +31,8 @@ public class Plan {
 	@Column(name = "accommodation_id")
 	private Integer accommodationId;//宿泊施設のID
 
-	private LocalDate date;
+	private LocalDate date; //日付
+
 	@ManyToOne
 	@JoinColumn(name = "accommodation_id", insertable = false, updatable = false)
 	private Accommodation accommodation;
@@ -65,6 +67,11 @@ public class Plan {
 	public void setReserves(List<Reserve> reserves) {
 		this.reserves = reserves;
 	}
+
+	@Transient
+	private LocalDate oldDate;
+	@Transient
+	private LocalDate newDate;
 
 	//コンストラクタ
 	public Plan() {
@@ -112,6 +119,22 @@ public class Plan {
 
 	public Integer getId() {
 		return id;
+	}
+
+	public LocalDate getOldDate() {
+		return oldDate;
+	}
+
+	public void setOldDate(LocalDate oldDate) {
+		this.oldDate = oldDate;
+	}
+
+	public LocalDate getNewDate() {
+		return newDate;
+	}
+
+	public void setNewDate(LocalDate newDate) {
+		this.newDate = newDate;
 	}
 
 }

@@ -19,7 +19,12 @@
 		</tr>
 		<tr th:each="accommodation : ${accommodations}">
 			<td th:text="${accommodation.id}"></td>
-			<td th:text="${accommodation.name}"></td>
+			<td>
+				<a th:href="@{/search/{accommodation}(accommodation=${accommodation.id})}">
+					<span th:text="${accommodation.name}"></span>
+				</a>
+			</td>
+			
 			<td th:text="${accommodation.oldDate + ' ~ ' + accommodation.newDate}"></td>
 			<td th:text="${accommodation.address}"></td>
 			<td th:text="${accommodation.language.name}"></td>

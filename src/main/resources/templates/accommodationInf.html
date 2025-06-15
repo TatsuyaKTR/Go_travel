@@ -1,10 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 
+<head>
+	<meta charset="UTF-8">
+	<title>ホテル詳細画面</title>
+</head>
+
+<body>
+	<h1>ホテル詳細</h1>
+	<table border="1">
+		<tr>
+			<th>ホテル名</th>
+			<td th:text=${accommodation.name}></td>
+		</tr>
+		<tr>
+			<th>日付</th>
+			<td>
+				<p th:each="plan:${accommodation.plans}" th:text="${plan.roomType.name + ':' + plan.oldDate + '~' + plan.newDate}"></p>
+			</td>
+		</tr>
+		<tr>
+			<th>住所</th>
+			<td th:text="${accommodation.address}"></td>
+		</tr>
+		<tr>
+			<th>対応言語</th>
+			<td th:text="${accommodation.language.name}"></td>
+		</tr>
+		<tr>
+			<th>風呂タイプ</th>
+			<td th:text="${accommodation.bathType.name}"></td>
+		</tr>
+		<tr>
+			<th>価格帯</th>
+			<td>
+				<span th:each="plan:${accommodation.plans}" th:text="${plan.roomType.name + ':' + plan.price + '円' +'　'}"></span>
+			</td>
+		</tr>
+		<tr>
+			<th>備考</th>
+			<td th:text="${accommodation.content}"></td>
+		</tr>
+	</table>
+	<form th:action="@{/search/{accommodationId}(accommodationId=${accommodation.id})}" method="post">
+		<button>予約</button>
+	</form>
+	<form action="/search" method="get">
+		<button>戻る</button>
+	</form>
 </body>
+
 </html>

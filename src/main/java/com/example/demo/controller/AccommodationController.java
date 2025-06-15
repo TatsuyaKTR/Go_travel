@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -52,7 +53,7 @@ public class AccommodationController {
 	 * @param model
 	 * @return
 	 */
-	@PostMapping("/")
+	@GetMapping("/search")
 	public String search(
 			@RequestParam(name = "startDate", defaultValue = "") LocalDate startDate,
 			@RequestParam(name = "endDate", defaultValue = "") LocalDate endDate,
@@ -157,7 +158,7 @@ public class AccommodationController {
 			}
 		}
 		/**
-		 * 最安値(price)とその日付の最も古い日(oldDate)と最も新しい日(newDate)を取得
+		 * 宿泊施設の中で最安値(price)とその日付の最も古い日(oldDate)と最も新しい日(newDate)を取得
 		 * priceの初期値をInteger.MAX_VALUEとし，もっと安い値段があればなれば更新
 		 * oldDateの初期値を2099年12月31日とし，もっと古い日付があれば更新
 		 * newDateの初期値を現在の日付とし，もっと新しい日付があれば更新
@@ -206,8 +207,39 @@ public class AccommodationController {
 		return "accommodation";
 	}
 
-	@GetMapping("/search")
+	@PostMapping("/search")
 	public String searchListView() {
-		return "accommodation";
+		return "redirect:/reserveList";
+	}
+
+	@GetMapping("/search/{accommodationId}")
+	public String detail(
+			@PathVariable("accommodationId") Integer accommodationId,
+			Model model) {
+		Accommodation accommodation = accommodationRepository.findById(accommodationId).get();
+
+		/**
+		 * プランの中で最安値(price)とその日付の最も古い日(oldDate)と最も新しい日(newDate)を取得
+		 * priceの初期値をInteger.MAX_VALUEとし，もっと安い値段があればなれば更新
+		 * oldDateの初期値を2099年12月31日とし，もっと古い日付があれば更新
+		 * newDateの初期値を現在の日付とし，もっと新しい日付があれば更新
+		 */
+		List<Plan> plans = planRepository.findByAccommodationId(accommodationId);
+		for (Plan plan : plans) {
+			LocalDate oldDate = LocalDate.of(2099, 12, 31);
+			LocalDate newDate = LocalDate.now();
+			if (oldDate.isAfter(plan.getDate())) {
+				oldDate = plan.getDate();
+			}
+			if (newDate.isBefore(plan.getDate())) {
+				newDate = plan.getDate();
+			}
+			plan.setOldDate(oldDate);
+			plan.setNewDate(newDate);
+		}
+
+		accommodation.setPlans(plans);
+		model.addAttribute("accommodation", accommodation);
+		return "accommodationInf";
 	}
 }
